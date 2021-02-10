@@ -1,0 +1,20 @@
+cookie-consent-banner {
+	background-color: var(--ccb-color-background, #191a22);
+	border-radius: var(--ccb-border-radius, 6px);
+	box-shadow: var(--ccb-box-shadow, 0 4px 18px rgba(0, 0, 0, 0.2));
+	color: var(--ccb-color-text, #eeeef0);
+	display: none;
+	padding: 12px 24px;
+	position: fixed;
+	bottom: 12px;
+	left: 12px;
+	margin-right: 12px;
+	z-index: 99999;
+}
+
+cookie-consent-banner.is-connected {
+	display: grid;
+	gap: 24px;
+	grid-template-columns: 1fr auto;
+	align-items: center;
+}
