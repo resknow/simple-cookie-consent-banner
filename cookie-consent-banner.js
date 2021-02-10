@@ -35,12 +35,16 @@ export class CookieConsentBanner extends HTMLElement {
 		this.querySelector('.ccb-actions').appendChild(acceptButton);
 
 		// Add connected class
-        this.removeAttribute('hidden'); // Avoid flash of unstyled
 		this.classList.add('is-connected');
 	}
 
+    /**
+     * Click Handler
+     *
+     * @param {*} event
+     */
 	handleAcceptClick(event) {
-		this.dispatchEvent('ccb-accepted');
+		this.dispatchEvent('ccb:accepted');
 		localStorage.setItem('ccbAccepted', true);
 		this.remove();
 	}
@@ -59,8 +63,13 @@ export class CookieConsentBanner extends HTMLElement {
         let head = document.querySelector('head');
         let linkElement = document.createElement('link');
         linkElement.rel = 'stylesheet';
-        linkElement.href = this.cssURL ?? 'cookie-consent-banner.css';
+        linkElement.href = this.cssURL ?? 'https://unpkg.com/simple-cookie-consent-banner@1.0.0/cookie-consent-banner.css';
         head.appendChild(linkElement);
+
+        // Show the banner after the CSS loads
+        setTimeout(() => {
+            this.removeAttribute('hidden');
+        }, 1000);
     }
 }
 

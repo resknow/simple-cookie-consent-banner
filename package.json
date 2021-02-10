@@ -1,6 +1,6 @@
 {
-  "name": "cookie-consent-banner",
-  "version": "1.0.0",
+  "name": "simple-cookie-consent-banner",
+  "version": "1.0.1",
   "description": "A simple cookie consent banner as a Web Component",
   "main": "index.html",
   "scripts": {
