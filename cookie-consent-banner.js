@@ -63,7 +63,7 @@ export class CookieConsentBanner extends HTMLElement {
         let head = document.querySelector('head');
         let linkElement = document.createElement('link');
         linkElement.rel = 'stylesheet';
-        linkElement.href = this.cssURL ?? 'https://unpkg.com/simple-cookie-consent-banner@1.0.0/cookie-consent-banner.css';
+        linkElement.href = this.cssURL ?? 'https://unpkg.com/simple-cookie-consent-banner@1.0.2/cookie-consent-banner.css';
         head.appendChild(linkElement);
 
         // Show the banner after the CSS loads
