@@ -6,8 +6,8 @@ export class CookieConsentBanner extends HTMLElement {
 			return;
 		}
 
-        // Load CSS
-        this.loadCSS();
+		// Load CSS
+		this.loadCSS();
 
 		this.acceptText = this.dataset.acceptText ?? 'OK';
 		this.render();
@@ -38,11 +38,11 @@ export class CookieConsentBanner extends HTMLElement {
 		this.classList.add('is-connected');
 	}
 
-    /**
-     * Click Handler
-     *
-     * @param {*} event
-     */
+	/**
+	 * Click Handler
+	 *
+	 * @param {*} event
+	 */
 	handleAcceptClick(event) {
 		this.dispatchEvent('ccb:accepted');
 		localStorage.setItem('ccbAccepted', true);
@@ -59,20 +59,65 @@ export class CookieConsentBanner extends HTMLElement {
 		window.dispatchEvent(new CustomEvent(name, { detail: data }));
 	}
 
-    loadCSS() {
-        let head = document.querySelector('head');
-        let linkElement = document.createElement('link');
-        linkElement.rel = 'stylesheet';
-        linkElement.href = this.cssURL ?? 'https://unpkg.com/simple-cookie-consent-banner@1.0.2/cookie-consent-banner.css';
-        head.appendChild(linkElement);
+	loadCSS() {
+		let head = document.querySelector('head');
+		let linkElement = document.createElement('link');
+		linkElement.rel = 'stylesheet';
+		linkElement.href = this.cssURL ?? 'https://unpkg.com/simple-cookie-consent-banner@1.0.2/cookie-consent-banner.css';
+		head.appendChild(linkElement);
 
-        // Show the banner after the CSS loads
-        setTimeout(() => {
-            this.removeAttribute('hidden');
-        }, 1000);
-    }
+		// Show the banner after the CSS loads
+		setTimeout(() => {
+			this.removeAttribute('hidden');
+		}, 1000);
+	}
 }
 
-if ( !window.customElements.get('cookie-consent-banner') ) {
-    window.customElements.define('cookie-consent-banner', CookieConsentBanner);
+export function loadScriptIfCookiesEnabled(src) {
+	window.scriptsToLoadIfCookiesEnabled.push(src);
+}
+
+export function runScriptIfCookiesEnabled(callback) {
+	window.scriptsToRunIfCookiesEnabled.push(callback);
+}
+
+export function injectScriptIfCookiesAccepted(src) {
+	let script = document.createElement('script');
+	script.src = src;
+	document.body.appendChild(script);
+}
+
+export function loadScriptsIfCookiesEnabled() {
+	if (window.scriptsToLoadIfCookiesEnabled.length > 0) {
+		window.scriptsToLoadIfCookiesEnabled.forEach((src) => {
+			injectScriptIfCookiesAccepted(src);
+		});
+	}
+}
+
+export function runScriptsIfCookiesEnabled() {
+	if (window.scriptsToRunIfCookiesEnabled.length > 0) {
+		window.scriptsToRunIfCookiesEnabled.forEach((callback) => {
+			callback();
+		});
+	}
+}
+
+window.scriptsToLoadIfCookiesEnabled = [];
+window.scriptsToRunIfCookiesEnabled = [];
+
+window.addEventListener('load', () => {
+	if (localStorage.getItem('ccbAccepted')) {
+		loadScriptsIfCookiesEnabled();
+		runScriptsIfCookiesEnabled();
+	}
+});
+
+window.addEventListener('ccb:accepted', () => {
+	loadScriptsIfCookiesEnabled();
+	runScriptsIfCookiesEnabled();
+});
+
+if (!window.customElements.get('cookie-consent-banner')) {
+	window.customElements.define('cookie-consent-banner', CookieConsentBanner);
 }

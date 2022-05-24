@@ -1,20 +1,32 @@
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cookie Consent Banner</title>
-</head>
-<body>
-
-    <!-- Add this element to your page, ideally at the bottom
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="x-ua-compatible" content="ie=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Cookie Consent Banner</title>
+	</head>
+	<body>
+		<!-- Add this element to your page, ideally at the bottom
         with the `hidden` attribute to avoid it flashing -->
-    <cookie-consent-banner hidden>
-        <p>We use cookies to provide the best experience.</p>
-    </cookie-consent-banner>
+		<cookie-consent-banner hidden>
+			<p>We use cookies to provide the best experience.</p>
+		</cookie-consent-banner>
 
-    <!-- Load the JS module -->
-    <script type="module" src="https://unpkg.com/simple-cookie-consent-banner/cookie-consent-banner.js"></script>
+		<!-- Load the JS module -->
+		<script type="module" src="https://unpkg.com/simple-cookie-consent-banner/cookie-consent-banner.js"></script>
 
-</body>
+		<!-- You can conditionally run Javascript if cookies are accepted -->
+		<script type="module">
+			// Import the necassary help functions
+			import { loadScriptIfCookiesEnabled, runScriptIfCookiesEnabled } from 'https://unpkg.com/simple-cookie-consent-banner/cookie-consent-banner.js';
+
+			// Load an external script if cookies are accepted
+			loadScriptIfCookiesEnabled('/example.js');
+
+			// Run a callback if cookies are accepted
+			runScriptIfCookiesEnabled(() => {
+				console.log('Cookies enabled');
+			});
+		</script>
+	</body>
 </html>
