@@ -10,6 +10,8 @@ cookie-consent-banner {
 	left: 12px;
 	margin-right: 12px;
 	z-index: 99999;
+	transform: translateY(10rem);
+	opacity: 0.3;
 }
 
 cookie-consent-banner.is-connected {
@@ -17,4 +19,20 @@ cookie-consent-banner.is-connected {
 	gap: 24px;
 	grid-template-columns: 1fr auto;
 	align-items: center;
+	animation-name: revealCookieConsentBanner;
+	animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	animation-duration: 650ms;
+	animation-fill-mode: forwards;
+}
+
+@keyframes revealCookieConsentBanner {
+	from {
+		opacity: 0.3;
+		transform: translateY(10rem);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
